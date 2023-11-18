@@ -25,4 +25,12 @@ Route::middleware([
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/companies', function () {
+        return view('companies');
+    })->name('companies');
+
+    Route::get('/employees', function () {
+        return view('employees');
+    })->name('employees');
 });

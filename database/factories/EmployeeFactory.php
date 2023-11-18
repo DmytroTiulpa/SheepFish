@@ -17,7 +17,11 @@ class EmployeeFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'first_name' => $this->faker->firstName,
+            'last_name' => $this->faker->lastName,
+            'email' => $this->faker->unique()->safeEmail,
+            'telephone' => $this->faker->phoneNumber,
+            'company' => \App\Models\Company::factory()->create()->id,
         ];
     }
 }
