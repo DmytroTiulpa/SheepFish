@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateCompanyRequest;
 use Illuminate\Support\Facades\File;
 use Illuminate\Http\Request;
 //use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class CompanyController extends Controller
@@ -44,18 +45,15 @@ class CompanyController extends Controller
 
         if ($request->file('logo')) {
             $file = $request->file('logo');
-
-            // Загрузка файла
-            //$fileName = time() . '_' . $file->getClientOriginalName();
-            //$filePath = $file->storeAs('logo', $fileName, 'public');
             $fileName = Str::uuid().'.'.$file->getClientOriginalExtension();
-            $filePath = $file->move(public_path('logo'), $fileName); // Перемещение файла в папку "public/uploads"
+            $filePath = $file->storeAs('public', $fileName);
+            $url = Storage::url($filePath);
         }
 
         $company = Company::create([
             'name' => $request->input('name'),
             'email' => $request->input('email'),
-            'logo' => $fileName ?? '', // Сохранение нового имени файла
+            'logo' => $url ?? '',
             'website' => $request->input('website'),
         ]);
 
@@ -89,7 +87,8 @@ class CompanyController extends Controller
         if ($request->file('logo')) {
             $file = $request->file('logo');
             $fileName = Str::uuid().'.'.$file->getClientOriginalExtension();
-            $filePath = $file->move(public_path('logo'), $fileName); // Перемещение файла в папку "public/uploads"
+            $filePath = $file->storeAs('public', $fileName);
+            $url = Storage::url($filePath);
         }
 
         $company = Company::findOrFail($id);
@@ -119,11 +118,12 @@ class CompanyController extends Controller
         //unlink(public_path('logo/'.$company->logo));
         //Storage::delete('logo/'.$company->logo);
         if ($company->logo) {
-            $logoPath = public_path('logo/'.$company->logo);
-            // Преобразование обратных слэшей в прямые для корректной работы в Windows
-            $logoPath = str_replace('\\', '/', $logoPath);
-            if (File::exists($logoPath)) {
-                File::delete($logoPath);
+            $fileToDelete = 'public/'.$company->logo;
+            if (Storage::exists($fileToDelete)) {
+                Storage::delete($fileToDelete);
+                echo 'Файл успешно удален.';
+            } else {
+                echo 'Файл не найден.';
             }
         }
 
