@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CompanyController;
+use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,7 +36,14 @@ Route::middleware([
     Route::delete('/companies/delete/{id}', [CompanyController::class, 'destroy'])->name('companies.delete');
     Route::get('/companies/delete_logo/{id}', [CompanyController::class, 'delete_logo'])->name('companies.delete_logo');
 
-    Route::get('/employees', function () {
+    Route::get('/employees', [EmployeeController::class, 'index'])->name('employees');
+    Route::get('/employees/create', [EmployeeController::class, 'create'])->name('employees.create');
+    Route::get('/employees/edit', [EmployeeController::class, 'edit'])->name('employees.edit');
+    Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
+    Route::post('/employees/update/{id}', [EmployeeController::class, 'update'])->name('employees.update');
+    Route::delete('/employees/delete/{id}', [EmployeeController::class, 'destroy'])->name('employees.delete');
+
+    /*Route::get('/employees', function () {
         return view('employees');
-    })->name('employees');
+    })->name('employees');*/
 });
