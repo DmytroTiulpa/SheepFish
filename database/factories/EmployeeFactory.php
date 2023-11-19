@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -21,7 +22,7 @@ class EmployeeFactory extends Factory
             'last_name' => $this->faker->lastName,
             'email' => $this->faker->unique()->safeEmail,
             'telephone' => $this->faker->phoneNumber,
-            'company' => \App\Models\Company::factory()->create()->id,
+            'company' => Company::inRandomOrder()->first()->id,
         ];
     }
 }

@@ -11,7 +11,7 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,13 @@ class UpdateCompanyRequest extends FormRequest
      */
     public function rules(): array
     {
+        $companyId = $this->route('id'); // Получаем id компании из маршрута
+
         return [
-            //
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:companies,email,' . $companyId, // исключаем из проверки при обновлении
+            'logo' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'website' => 'nullable|url',
         ];
     }
 }

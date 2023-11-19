@@ -17,6 +17,6 @@ class CompanySeeder extends Seeder
         Company::truncate();
 
         // Заполняем таблицу данными с использованием фабрики
-        \App\Models\Company::factory(50)->create();
+        Company::factory(50)->create();
     }
 }

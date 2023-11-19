@@ -17,6 +17,6 @@ class EmployeeSeeder extends Seeder
         Employee::truncate();
 
         // Заполняем таблицу данными с использованием фабрики
-        \App\Models\Employee::factory(150)->create();
+        Employee::factory(150)->create();
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CompanyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,9 +27,13 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/companies', function () {
-        return view('companies');
-    })->name('companies');
+    Route::get('/companies', [CompanyController::class, 'index'])->name('companies');
+    Route::get('/companies/create', [CompanyController::class, 'create'])->name('companies.create');
+    Route::get('/companies/edit', [CompanyController::class, 'edit'])->name('companies.edit');
+    Route::post('/companies/store', [CompanyController::class, 'store'])->name('companies.store');
+    Route::post('/companies/update/{id}', [CompanyController::class, 'update'])->name('companies.update');
+    Route::delete('/companies/delete/{id}', [CompanyController::class, 'destroy'])->name('companies.delete');
+    Route::get('/companies/delete_logo/{id}', [CompanyController::class, 'delete_logo'])->name('companies.delete_logo');
 
     Route::get('/employees', function () {
         return view('employees');
