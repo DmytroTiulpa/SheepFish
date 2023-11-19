@@ -42,8 +42,4 @@ Route::middleware([
     Route::post('/employees/store', [EmployeeController::class, 'store'])->name('employees.store');
     Route::post('/employees/update/{id}', [EmployeeController::class, 'update'])->name('employees.update');
     Route::delete('/employees/delete/{id}', [EmployeeController::class, 'destroy'])->name('employees.delete');
-
-    /*Route::get('/employees', function () {
-        return view('employees');
-    })->name('employees');*/
 });
